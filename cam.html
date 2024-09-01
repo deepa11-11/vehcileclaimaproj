@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webcam</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body{
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            background-color: #d9f5eb;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container{
+            text-align: center;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            background-color: #95f0d1;
+        }
+
+        h2{
+            color: #333;
+            text-transform: uppercase;
+            font-size: 2.4rem;
+            margin-bottom: 20px;
+        }
+
+        video{
+            width: 100%;
+            max-width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        button{
+            display: block;
+            width: 100%;
+            padding: 10px 0;
+            border-radius: 25px;
+            outline: none;
+            border: none;
+            background-image: linear-gradient(to right #d9f5eb, #d9f5eb,#d9f5eb);
+            background-size: 200%;
+            font-size: 1.2rem;
+            color: #151515;
+            font-family: 'Poppins', sans-serif;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: .5s;
+            margin-bottom: 10px;
+        }
+
+        button:hover{
+            background-position: right;
+        }
+
+        canvas{
+            display: none;
+            margin-top: 20px;
+            max-width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Take Picture</h2>
+        <video id="webcam" autoplay></video>
+        <button id="captureBtn">Capture Photo</button>
+        <canvas id="canvas"></canvas>
+        <br>
+        <button id="uploadBtn" style="display: none;">Upload Photo</button>
+
+    </div>
+
+    <script>
+        // Access the webcam video stream
+const video = document.getElementById('webcam');
+const captureBtn = document.getElementById('captureBtn');
+const uploadBtn = document.getElementById('uploadBtn');
+const canvas = document.getElementById('canvas');
+
+navigator.mediaDevices.getUserMedia({ video: true })
+    .then(stream => {
+        video.srcObject = stream;
+    })
+    .catch(error => {
+        console.error('Error accessing the webcam: ', error);
+    });
+
+captureBtn.addEventListener('click', () => {
+    const context = canvas.getContext('2d');
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+    canvas.style.display = 'block'; // Show the captured image
+    uploadBtn.style.display = 'block'; // Show the upload button
+});
+
+uploadBtn.addEventListener('click', () => {
+    const dataURL = canvas.toDataURL('image/png');
+
+    // Create a form to upload the image
+    const formData = new FormData();
+    formData.append('file', dataURItoBlob(dataURL), 'webcam.png');
+
+    // Send the image to the server (adjust the URL to your server endpoint)
+    fetch('/upload', {
+        method: 'POST',
+        body: formData
+    }).then(response => response.json())
+      .then(result => {
+          console.log('Success:', result);
+      })
+      .catch(error => {
+          console.error('Error:', error);
+      });
+});
+
+// Helper function to convert dataURL to Blob
+function dataURItoBlob(dataURI) {
+    const byteString = atob(dataURI.split(',')[1]);
+    const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: mimeString });
+}
+
+    </script>
+</body>
+</html>

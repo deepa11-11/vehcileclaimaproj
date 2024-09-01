@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Insurance Claim Form</title>
+  
+    <style>
+        form {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #95f0d1;
+            border: 4px solid #5b5959;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 1.8rem;
+        }
+
+        fieldset {
+            margin-bottom: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+        }
+
+        legend {
+            font-weight: bold;
+            color: #040404;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+            align-items: center;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        input[type="text"],
+        input[type="tel"],
+        input[type="email"],
+        input[type="date"],
+        input[type="number"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: #38d39f;
+            outline: none;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #32be8f;
+        }
+    </style>
+</head>
+<body>
+    <form id="claim-form">
+        <h2>Vehicle Insurance Claim Form</h2>
+
+        <fieldset>
+            <legend>Personal Information</legend>
+            <label for="full-name">Full Name:</label>
+            <input type="text" id="full-name" name="fullName" required>
+
+            <label for="contact-number">Contact Number:</label>
+            <input type="tel" id="contact-number" name="contactNumber" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="address">Address:</label>
+            <textarea id="address" name="address" required></textarea>
+        </fieldset>
+
+        <fieldset>
+            <legend>Vehicle Details</legend>
+            <label for="vehicle-type">Vehicle Number</label>
+            <input type="text" id="vehicle-type" name="vehicleNumber" required>
+            </select>
+
+           
+        </fieldset>
+
+        <fieldset>
+            <legend>Insurance Policy Details</legend>
+            <label for="policy-number">Policy Number:</label>
+            <input type="text" id="policy-number" name="policyNumber" required>
+
+            <label for="insurer-name">Insurer Name:</label>
+            <input type="text" id="insurer-name" name="insurerName" required>
+
+           
+        </fieldset>
+
+        <fieldset>
+            <legend>Claim Information</legend>
+            <label for="incident-date">Date of Incident:</label>
+            <input type="date" id="incident-date" name="incidentDate" required>
+
+            <label for="incident-type">Type of Incident:</label>
+            <select id="incident-type" name="incidentType" required>
+                <option value="collision">Road Accident</option>
+                <option value="fire">Fire Accident </option>
+                <option value="other">Other</option>
+            </select>
+
+            <label for="claim-amount">Estimated Claim Amount:</label>
+            <input type="number" id="claim-amount" name="claimAmount" required>
+
+            <label for="additional-info">Report on Accident:</label>
+            <textarea id="additional-info" name="additionalInfo"></textarea>
+        </fieldset>
+
+        <button type="submit">Next</button>
+    </form>
+
+    <script>
+        document.getElementById('claim-form').addEventListener('submit', function(event) {
+            event.preventDefault(); 
+            window.location.href = 'cam.html';
+        });
+    </script>
+</body>
+</html>
